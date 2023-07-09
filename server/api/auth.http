@@ -1,0 +1,140 @@
+# for creating user 
+####IF WE WANT TO MAKE IT ACCESSIBLE TO EVEryONE  REMOVE MIDDLEWARE 
+##### AND IF WE WANT TO GIVE PERMISSION TO ONLY ADMIN OR EXISTING USER WE NEED TO USE  USE MIDDLEWARE
+
+POST http://localhost:4000/api/v1/auth/create HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "chuphalshubham@gmail.com",
+  "password": "Shubham@123"
+}
+########
+
+# @name login
+POST http://localhost:4000/api/v1/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "chuphalshubham@gmail.com",
+  "password": "Shubham@123"
+}
+
+###
+
+@authToken = {{login.response.body.data.token}}
+
+# @name agency
+POST http://localhost:4000/api/v1/agency HTTP/1.1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "agency":{ 
+      "name":"Agency 2",
+      "address1": "agency.address1",
+      "address2": "agency.address2",
+      "state": "agency.state",
+      "city": "agency.city",
+      "phoneNumber": "agency.phoneNumber"
+      },
+
+  "clients":[{
+      "name": "testClient",
+      "email": "test@gmail.com",
+      "phoneNumber": "client.phoneNumber",
+      "totalBill": 800
+      },{"name": "testClient2",
+      "email": "test2@gmail.com",
+      "phoneNumber": "client.phoneNumber",
+      "totalBill": 900}]
+}
+###
+@id = {{agency.response.body.data.createAgency._id}}
+
+### GET ALL AGENCY WITH ALL CLIENT
+
+GET http://localhost:4000/api/v1/agency  HTTP/1.1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+
+### GET PARTICuLARID AGENCY WITH  ALL  CLIENT
+
+GET http://localhost:4000/api/v1/agency/{{id}}  HTTP/1.1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+#### Top CLIENT
+GET http://localhost:4000/api/v1/agency/clients/top  HTTP/1.1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+
+### UPDATE AGENCY 
+
+PUT  http://localhost:4000/api/v1/agency/update/{{id}}  HTTP/1.1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "agency":{ 
+      "name":"Agency 5",
+      "address1": "agency.address1",
+      "address2": "agency.address2",
+      "state": "agency.state",
+      "city": "agency.city",
+      "phoneNumber": "agency.phoneNumber"
+      }
+  }
+
+#### DElete AGENC
+ 
+DELETE  http://localhost:4000/api/v1/agency/delete/{{id}}  HTTP/1.1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+########################## FOR CLIENT
+
+####Updating CLIENT dETAILS
+
+@clientID=64aa91fa51cdbccda3225733
+
+PUT  http://localhost:4000/api/v1/client/{{clientID}}  HTTP/1.1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "client":{
+    "name":"shubham",
+    "email":"tettst@gmail.com",
+    "number":"testting",
+    "totalBill":8000
+  }
+}
+
+#### DELETE CLIET
+DELETE  http://localhost:4000/api/v1/client/delete/{{clientID}}  HTTP/1.1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+
+##### CREATE CLIENT
+
+POST  http://localhost:4000/api/v1/client  HTTP/1.1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "agencyId":"{{id}}",
+
+   "clients":[{
+      "name": "testClient4",
+      "email": "test@gmail.com",
+      "phoneNumber": "client.phoneNumber",
+      "totalBill": 800
+      },{"name": "testClient3",
+      "email": "test2@gmail.com",
+      "phoneNumber": "client.phoneNumber",
+      "totalBill": 900}]
+}
