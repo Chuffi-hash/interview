@@ -10,7 +10,7 @@ const port = PORT || 4000;
 connectDB()
   .then(() => {
     app.use(express.json());
-
+    console.log("test");
     app.get(`${VERSION_API}/health-check`, (req, res) => {
       res.writeHead(200, { "Content-Type": "text/html" });
       res.write("<!DOCTYPE html>");
